@@ -6,8 +6,6 @@ interface CustomRequest extends Request {
 }
 
 export function userAuth(req: CustomRequest, res: Response, next: NextFunction) { 
-  const { id } = req.params;
-
   const token = extractTokenFromHeader(req);
 
   if(!token) {
@@ -17,8 +15,8 @@ export function userAuth(req: CustomRequest, res: Response, next: NextFunction) 
   try {
     const payload = jwt.verify(token, process.env.SECRET_KEY!);
     req['userId'] = payload.sub as string;
-  } catch (error) {
-    console.log(error);
+  } catch {
+    throw new Error('invalid Token');
   }
   next();
 }

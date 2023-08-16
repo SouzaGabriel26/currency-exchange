@@ -45,6 +45,7 @@ class UsersController {
       return res.json({ token });
     } catch (error) {
       console.log(error);
+      throw new Error();
     }
   }
 
@@ -76,6 +77,7 @@ class UsersController {
       return res.json({ token });
     } catch (error) {
       console.log(error);
+      throw new Error();
     }
 
   }
@@ -94,15 +96,11 @@ class UsersController {
   }
   
   async show(req: CustomRequest, res: Response) {
-    const { id } = req.params;
-
-    if (id !== req.userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
+    const { userId } = req;
 
     const user = await UsersRepository.findUnique({
       where: {
-        id
+        id: userId
       },
       select: {
         id: true,
