@@ -37,11 +37,13 @@ This project is a currency exchange application that provides two options for ma
 ## API Endpoints
 
 ### User
-  - `POST /user/signup`: Endpoint for user registration. Requires a unique email, name and password.
+  - `POST /auth/signup`: Endpoint for user registration. Requires a unique email, name and password.
   
-  - `POST /user/signin`: Endpoint for user login. Requires valid credentials to authenticate and receive an access token (email and password).
+  - `POST /auth/signin`: Endpoint for user login. Requires valid credentials to authenticate and receive an access token (email and password).
   
-  - `GET /user/:userId`: Endpoint for get the user info by id (private route, it requires a Bearer token).
+  - `GET /user/me`: Endpoint for get the user info by id (private route, it requires a Bearer token).
+
+  - `PUT /user/:id`: Endpoint for update a user (private route, it requires a Bearer token).
   
   - `DELETE /user/:userId`: Endpoint for delete a user account (private route, it requires a Bearer token).
 
