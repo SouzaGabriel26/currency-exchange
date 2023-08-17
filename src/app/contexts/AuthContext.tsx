@@ -3,11 +3,13 @@ import { localStorageKeys } from '../config/localStorageKeys';
 import { usersService } from '../services/usersService';
 import toast from 'react-hot-toast';
 import { Spinner } from '../../view/components/Spinner';
+import { MeResponse } from '../services/usersService/me';
 
 interface AuthContextValue {
   signedIn: boolean;
   signin(accessToken: string): void;
   signout(): void;
+  userData: MeResponse;
 }
 
 export const AuthContext = createContext({} as AuthContextValue);
@@ -21,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const [errorGetUser, setErrorGetUser] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [userData, setUserData] = useState<MeResponse>({} as MeResponse);
 
   const signin = useCallback((accessToken: string) => {
     localStorage.setItem(localStorageKeys.ACCESS_TOKEN, accessToken);
@@ -36,11 +39,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function getUserData() {
     setIsFetching(true);
+
     try {
       const user = await usersService.me();
 
       setErrorGetUser(false);
-      return user;
+      setUserData(user);
+
     } catch {
       setErrorGetUser(true);
     } finally {
@@ -65,7 +70,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider value={{
       signedIn: !errorGetUser && signedIn,
       signin,
-      signout
+      signout,
+      userData,
     }}>
       { isFetching && <div className="w-full h-full flex items-center justify-center"> <Spinner className='w-12 h-12 dark:text-gray-200'/> </div> }
       { !isFetching && children }
