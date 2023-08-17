@@ -4,6 +4,7 @@ import { Login } from '../view/pages/Login';
 import { Register } from '../view/pages/Register';
 import { Dashboard } from '../view/pages/Dashboard';
 import { AuthLayout } from '../view/Layouts/AuthLayout';
+import { Profile } from '../view/pages/Profile';
 
 export function Router() {
   return (
@@ -18,6 +19,7 @@ export function Router() {
 
         <Route element={<AuthGuard isPrivate />}>
           <Route path='/' element={<Dashboard />} />
+          <Route path='/profile' element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>
