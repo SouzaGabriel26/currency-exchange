@@ -1,10 +1,11 @@
+import { TradeInterface } from "../../utils/interfaces/tradeInterface";
 import { httpClient } from "../httpClient";
 
-interface MeResponse {
+export interface MeResponse {
   id: string,
   email: string,
   name: string,
-  trades: [],
+  trades: TradeInterface[],
 }
 
 export async function me() {
