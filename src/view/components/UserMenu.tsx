@@ -18,7 +18,9 @@ export function UserMenu({ title }: UserMenuProp) {
   }
 
   return (
-    <div className= "relative flex items-center justify-center bg-blue-200 rounded-full w-12 h-12 border border-blue-300 cursor-pointer"
+    <div className={cn(
+      "relative flex items-center justify-center bg-blue-200 rounded-full w-12 h-12 border border-blue-300 cursor-pointer"
+    )}
     onClick={handleDropdownToggle}
     >
       <span
@@ -28,10 +30,9 @@ export function UserMenu({ title }: UserMenuProp) {
         {title}
       </span>
       <div
-        id="dropdown"
         className={cn(
           "z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-35 dark:bg-gray-600 absolute top-12 right-0",
-          !isDropdownOpen && "block"
+          isDropdownOpen && "block"
         )}
       >
         <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
