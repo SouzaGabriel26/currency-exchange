@@ -18,7 +18,7 @@ class TradesController {
       }
     });
 
-    return res.json({ userTrades });
+    return res.json(userTrades);
   }
 
   async create(req: CustomRequest, res: Response) {
@@ -61,7 +61,7 @@ class TradesController {
           },
         });
 
-        return res.status(201).json({ newTrade });
+        return res.status(201).json(newTrade);
       }
     }
 
