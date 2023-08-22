@@ -1,6 +1,5 @@
 import { usdTogbp } from './usd-gbp';
 import { gbpTousd } from './gbp-usd';
-import { getAllbyUser } from './getAllbyUser';
 
 export interface TradeParam {
   inputValue: number;
@@ -9,5 +8,4 @@ export interface TradeParam {
 export const tradesService = {
   usdTogbp,
   gbpTousd,
-  getAllbyUser
 }
