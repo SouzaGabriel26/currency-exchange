@@ -32,6 +32,7 @@ export function Login() {
           type="password"
           error={errors.password?.message}
           {...register('password')}
+          isPassword
         />
         <Button type="submit" isLoading={isLoading}>Entrar</Button>
       </form>

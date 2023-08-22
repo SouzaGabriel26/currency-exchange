@@ -1,15 +1,21 @@
-import { ComponentProps, forwardRef } from 'react';
+import { ComponentProps, forwardRef, useState } from 'react';
 import { cn } from '../../app/utils/cn';
-import { CrossCircledIcon } from '@radix-ui/react-icons';
+import { CrossCircledIcon, EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 
 interface InputProps extends ComponentProps<'input'> {
   name: string;
   error?: string,
+  isPassword?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ placeholder, name, error, id, className, ...props }, ref) => {
+  ({ placeholder, name, error, id, className, isPassword, type, ...props }, ref) => {
     const inputId = id ?? name;
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    function toogleShowPassword() {
+      setShowPassword((prevState) => !prevState);
+    }
 
     return (
       <div className="relative">
@@ -25,7 +31,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             className
           )}
           placeholder=" "
+          type={showPassword ? "text" : type}
         />
+
+        {
+          isPassword && (
+            <button
+              onClick={toogleShowPassword}
+              type="button"
+              className="absolute top-5 right-4"
+            >
+              { showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+            </button>
+          )
+        }
 
         <label
           htmlFor={inputId}

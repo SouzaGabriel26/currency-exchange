@@ -38,6 +38,7 @@ export function Register() {
             placeholder="Senha"
             error={errors.password?.message}
             {...register('password')}
+            isPassword
           />
           <Button
             type="submit"
