@@ -25,8 +25,8 @@ export function TradePlayground() {
       </div>
       <form onSubmit={handleTrade} className="flex gap-4">
         <Input
-          {...register('inputValue', { valueAsNumber: true })}
-          type="number" placeholder={`Valor em ${inputCurrency}`}
+          {...register('inputValue', { required: true })}
+          type="text" placeholder={`Valor em ${inputCurrency}`}
           error={errors.inputValue?.message}
           className="w-[150px] text-center placeholder-shown:text-left"
           />
