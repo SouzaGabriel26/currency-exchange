@@ -4,12 +4,14 @@ import { usersService } from '../services/usersService';
 import toast from 'react-hot-toast';
 import { Spinner } from '../../view/components/Spinner';
 import { MeResponse } from '../services/usersService/me';
+import { TradeInterface } from '../utils/interfaces/tradeInterface';
 
 interface AuthContextValue {
   signedIn: boolean;
   signin(accessToken: string): void;
   signout(): void;
   userData: MeResponse;
+  updateUserTrades(data: TradeInterface): void
 }
 
 export const AuthContext = createContext({} as AuthContextValue);
@@ -35,6 +37,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
 
     setSignedIn(false);
+  }, []);
+
+  const updateUserTrades = useCallback((data: TradeInterface) => {
+    setUserData((prevState) => ({
+      ...prevState,
+      trades: [...prevState.trades, data],
+    }));
   }, []);
 
   async function getUserData() {
@@ -72,6 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       signin,
       signout,
       userData,
+      updateUserTrades,
     }}>
       { isFetching && <div className="w-full h-full flex items-center justify-center"> <Spinner className='w-12 h-12 dark:text-gray-200'/> </div> }
       { !isFetching && children }
