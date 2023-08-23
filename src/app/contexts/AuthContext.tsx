@@ -11,7 +11,8 @@ interface AuthContextValue {
   signin(accessToken: string): void;
   signout(): void;
   userData: MeResponse;
-  updateUserTrades(data: TradeInterface): void
+  updateUserTrades(data: TradeInterface): void;
+  removeTrade(tradeId: string): void;
 }
 
 export const AuthContext = createContext({} as AuthContextValue);
@@ -43,6 +44,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUserData((prevState) => ({
       ...prevState,
       trades: [...prevState.trades, data],
+    }));
+  }, []);
+
+  const removeTrade = useCallback((tradeId: string) => {
+    setUserData((prevState) => ({
+      ...prevState,
+      trades: prevState.trades.filter((trade) => trade.id !== tradeId),
     }));
   }, []);
 
@@ -82,6 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       signout,
       userData,
       updateUserTrades,
+      removeTrade
     }}>
       { isFetching && <div className="w-full h-full flex items-center justify-center"> <Spinner className='w-12 h-12 dark:text-gray-200'/> </div> }
       { !isFetching && children }
