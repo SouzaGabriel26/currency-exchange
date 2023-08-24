@@ -31,15 +31,15 @@ export function UserMenu({ title }: UserMenuProp) {
       </span>
       <div
         className={cn(
-          "z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-35 dark:bg-gray-600 absolute top-12 right-0",
+          "z-10 hidden bg-white divide-y divide-gray-500 rounded-lg border border-gray-300 shadow w-35 absolute top-12 right-0 w-40",
           isDropdownOpen && "block"
         )}
       >
-        <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+        <ul className="py-2 text-sm text-gray-800" aria-labelledby="dropdownDefaultButton">
           <li>
             <Link
               to="/profile"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="block px-4 py-2 hover:bg-gray-100 text-center"
             >
                 Profile
             </Link>
@@ -48,7 +48,7 @@ export function UserMenu({ title }: UserMenuProp) {
           <li>
             <a
             href="#"
-            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+            className="block px-4 py-2 hover:bg-gray-100 text-center"
             onClick={signout}
           >
               Signout
