@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Button } from "../../../../components/Button";
 import { Input } from "../../../../components/Input";
 import { useTradePlaygroundController } from "./useTradePlaygroundController";
 import { LoopIcon } from '@radix-ui/react-icons';
+import { cn } from "../../../../../app/utils/cn";
 
 export function TradePlayground() {
 
@@ -15,12 +17,22 @@ export function TradePlayground() {
     isLoading
   } = useTradePlaygroundController();
 
+  const [isRotate, setIsRotate] = useState<boolean>(false);
+
+  function toggleCurrency() {
+    toggleInputCurrency();
+    setIsRotate((prevState) => !prevState);
+  }
+
   return (
     <div className="flex flex-col h-full items-center justify-center gap-6">
       <div className="flex flex-col justify-center items-center gap-2">
         <span>Currency: <strong>{inputCurrency.toUpperCase()}</strong></span>
-        <Button onClick={toggleInputCurrency} disabled={isLoading}>
-          <LoopIcon />
+        <Button onClick={toggleCurrency} disabled={isLoading}>
+          <LoopIcon className={cn(
+            'transition-all',
+            isRotate && 'rotate-180'
+          )} />
         </Button>
       </div>
       <form onSubmit={handleTrade} className="flex gap-4">
