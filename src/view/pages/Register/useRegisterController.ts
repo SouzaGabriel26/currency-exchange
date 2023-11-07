@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { authService } from "../../../app/services/authService";
 import toast from 'react-hot-toast';
+import { useMutation } from 'react-query';
+import { z } from "zod";
 import { useAuth } from '../../../app/hooks/useAuth';
+import { authService } from "../../../app/services/authService";
 
 const schema = z.object({
   email: z.string().nonempty('E-mail é obrigatório').email('Informe um e-mail válido'),
@@ -15,8 +15,6 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export function useRegisterController() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const { signin } = useAuth();
 
   const {
@@ -27,18 +25,19 @@ export function useRegisterController() {
     resolver: zodResolver(schema)
   });
 
-  const handleSubmit = hookFormSubmit(async (data) => {
-    setIsLoading(true);
+  const { mutateAsync, isLoading } = useMutation({
+    mutationFn: async (data: FormData) => {
+      return authService.signup(data);
+    }
+  });
 
+  const handleSubmit = hookFormSubmit(async (data) => {
     try {
-      const { token } = await authService.signup(data);
+      const { token } = await mutateAsync(data);
 
       signin(token);
     } catch {
       toast.error('Ocorreu um erro ao criar a sua conta.');
-    }
-    finally {
-      setIsLoading(false);
     }
   })
 

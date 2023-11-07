@@ -1,17 +1,17 @@
+import { zodResolver } from '@hookform/resolvers/zod/src/zod.js';
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { z } from "zod";
+import { useAuth } from "../../../../../app/hooks/useAuth";
 import { tradesService } from "../../../../../app/services/tradesService";
 import { TradeInterface } from "../../../../../app/utils/interfaces/tradeInterface";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from '@hookform/resolvers/zod/src/zod.js';
-import toast from "react-hot-toast";
-import { useAuth } from "../../../../../app/hooks/useAuth";
 
 type InputCurrencyType = 'usd' | 'gbp';
 
 const schema = z.object({
   inputValue: z.string().refine(value => {
-    const floatValue = parseFloat(value.replace(',', '.')); // Converta vírgulas para pontos
+    const floatValue = parseFloat(value.replace(',', '.')); // Converte vírgulas para pontos
     return !isNaN(floatValue); // Verifique se o valor é um número válido
   }, {
     message: 'Enter a valid number'
@@ -32,7 +32,7 @@ export function useTradePlaygroundController() {
   const [inputCurrency, setInputCurrency] = useState<InputCurrencyType>('usd');
   const [trade, setTrade] = useState<TradeInterface>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { updateUserTrades } = useAuth();
+  const { refetchUserData } = useAuth();
 
   const handleTrade = hookFormSubmit(async (param: { inputValue: string }) => {
       setIsLoading(true);
@@ -43,13 +43,13 @@ export function useTradePlaygroundController() {
           const data = await tradesService.usdTogbp({ inputValue: convertedValue });
 
           setTrade(data);
-          updateUserTrades(data);
+          refetchUserData()
           return data;
         } else if (inputCurrency === 'gbp') {
           const data = await tradesService.gbpTousd({ inputValue: convertedValue });
 
           setTrade(data);
-          updateUserTrades(data);
+          refetchUserData()
           return data;
         }
         return 'Erro'
