@@ -1,10 +1,12 @@
-import { Request, Response } from "express";
 import bcrypt from 'bcrypt';
+import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 
-import { createUser } from './dtos/userDtos';
+import { CustomRequest } from '../middlewares/userAuth';
 import UsersRepository from "../repository/UsersRepository";
-import { CustomRequest } from "../interfaces/CustomRequest";
+import { createUser } from './dtos/userDtos';
+
+const secret = process.env.SECRET_KEY as string;
 
 class UsersController {
 
@@ -12,7 +14,11 @@ class UsersController {
     const { email, name, password }: createUser = req.body;
 
     if (!email || !name || !password) {
-      return res.status(402).json({ error: 'All fields required' });
+      return res.status(402).json({ error: 'All fields required: email, name and password' });
+    }
+
+    if (password.length < 5) {
+      return res.status(402).json({ error: 'Password must be at least 5 characters' });
     }
 
     const userExists = await UsersRepository.findUnique({
@@ -41,7 +47,7 @@ class UsersController {
     });
 
     try {
-      const token = jwt.sign({ sub: user.id }, process.env.SECRET_KEY!);
+      const token = generateAccessToken({ sub: user.id });
       return res.json({ token });
     } catch (error) {
       console.log(error);
@@ -53,7 +59,11 @@ class UsersController {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(402).json({ error: 'All fields required' });
+      return res.status(402).json({ error: 'All fields required: email and password' });
+    }
+
+    if (password.length < 5) {
+      return res.status(402).json({ error: 'Password must be at least 5 characters' });
     }
 
     const user = await UsersRepository.findUnique({
@@ -73,7 +83,7 @@ class UsersController {
     }
 
     try {
-      const token = jwt.sign({ sub: user.id }, process.env.SECRET_KEY!);
+      const token = generateAccessToken({ sub: user.id});
       return res.json({ token });
     } catch (error) {
       console.log(error);
@@ -122,20 +132,22 @@ class UsersController {
 
     const { email, name } = req.body;
 
-    if (!email || !name) {
-      return res.status(402).json({ error: 'All fields required' });
+    if (!email && !name) {
+      return res.status(402).json({ error: 'At least one field is required: email or name' });
     }
 
     if (id !== req.userId) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
     
-    const isEmailAlreadyTaken = await UsersRepository.findUnique({ where: { email } });
-
-    const isUserOwnEmail = isEmailAlreadyTaken?.id === id;
-
-    if (isEmailAlreadyTaken && !isUserOwnEmail) {
-      return res.status(404).json({ error: 'This email is already in use' });
+    if (email) {
+      const isEmailAlreadyTaken = await UsersRepository.findUnique({ where: { email } });
+  
+      const isUserOwnEmail = isEmailAlreadyTaken?.id === id;
+  
+      if (isEmailAlreadyTaken && !isUserOwnEmail) {
+        return res.status(404).json({ error: 'This email is already in use' });
+      }
     }
 
     const newUser = await UsersRepository.update({
@@ -171,6 +183,13 @@ class UsersController {
 
     return res.sendStatus(204);
   }
+
+}
+
+function generateAccessToken(payload: Record<string, any>) {
+  return jwt.sign(payload, secret, {
+    expiresIn: '1d',
+  });
 }
 
 export default new UsersController();

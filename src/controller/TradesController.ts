@@ -1,12 +1,12 @@
 import { Response } from 'express';
-import { getGBPinUSD, getUSDinGBP } from '../utils/handleCurrencies/getBidValue';
-import { CustomRequest } from '../interfaces/CustomRequest';
+import { CustomRequest } from '../middlewares/userAuth';
 import TradesRepository from '../repository/TradesRepository';
+import { getGBPinUSD, getUSDinGBP } from '../utils/handleCurrencies/getBidValue';
 
 class TradesController {
 
-  async findAll(req: CustomRequest, res: Response) {
-    const { userId } = req.params;
+  async findAllByUserId(req: CustomRequest, res: Response) {
+    const { userId } = req;
 
     if (userId !== req.userId) {
       return res.status(402).json({ error: 'Unauthorized' });
@@ -24,7 +24,7 @@ class TradesController {
   async create(req: CustomRequest, res: Response) {
     const { trade } = req.params;
     const { inputValue }: { inputValue: number } = req.body;
-    const userId = req.userId;
+    const { userId }= req;
 
     if (!userId) {
       return res.status(409).json({ error: 'Unauthorized' });
@@ -65,28 +65,18 @@ class TradesController {
       }
     }
 
-    return res.status(404).json({ error: `Trade direction ${trade} not found` });
+    return res.status(404).json({ error: `Incorrect trade direction: ${trade}.` });
 
   }
 
   async delete(req: CustomRequest, res: Response) {
     const { tradeId } = req.params;
-    const userId = req.userId;
-
-    const isUserOwner = await TradesRepository.findUnique({
-      where: {
-        id: tradeId,
-        userId
-      }
-    });
-
-    if(!isUserOwner) {
-      return res.status(404).json({ error: 'Trade not found' });
-    }
+    const { userId } = req;
 
     await TradesRepository.delete({
       where: {
-        id: tradeId
+        id: tradeId,
+        userId
       }
     });
 

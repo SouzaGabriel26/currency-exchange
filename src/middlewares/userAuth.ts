@@ -1,8 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 
-interface CustomRequest extends Request {
+export interface CustomRequest extends Request {
   userId?: string; // ou qualquer outro tipo adequado para a propriedade user
+}
+
+interface PayloadProps {
+  sub: string;
+  isAdmin?: boolean;
 }
 
 export function userAuth(req: CustomRequest, res: Response, next: NextFunction) { 
@@ -13,10 +18,11 @@ export function userAuth(req: CustomRequest, res: Response, next: NextFunction) 
   }
 
   try {
-    const payload = jwt.verify(token, process.env.SECRET_KEY!);
+    const payload = jwt.verify(token, process.env.SECRET_KEY as string) as PayloadProps;
     req['userId'] = payload.sub as string;
   } catch {
-    throw new Error('invalid Token');
+    // invalid token error
+    return res.status(401).json({ error: 'Invalid Token'});
   }
   next();
 }
