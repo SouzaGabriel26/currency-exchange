@@ -14,7 +14,7 @@ export function useDashboardController() {
         : setNameInitials(nameArray[0].charAt(0) + nameArray[0].charAt(1))
     }
 
-  }, [userData]);
+  }, [userData, setNameInitials]);
 
   return { nameInitials }
 }
