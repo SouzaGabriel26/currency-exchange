@@ -10,7 +10,7 @@ async function getUSDinGBP() {
     const { data } = response;
 
     const bidValue = {
-      description: 'usd in gbp',
+      description: 'De usd para gbp',
       bidValue: parseFloat(data.USDGBP.bid),
       create_date: data.USDGBP.create_date
     }
@@ -29,7 +29,7 @@ async function getGBPinUSD() {
     const { data } = response;
 
     const bidValue = {
-      description: 'gbp in usd',
+      description: 'De gbp para usd',
       bidValue: parseFloat(data.GBPUSD.bid),
       create_date: data.GBPUSD.create_date,
     }

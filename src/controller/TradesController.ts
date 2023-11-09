@@ -52,7 +52,17 @@ class TradesController {
         const newTrade = await TradesRepository.create({
           data: {
             userId,
-            createdAt: new Date(),
+            createdAt: new Date(Date.now()).toLocaleString(
+              "pt-BR",
+              {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+              }
+            ),
             currentBidValue: bidValueObj.bidValue,
             currentBidDate: bidValueObj.create_date,
             description: bidValueObj.description,
