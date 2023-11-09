@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod/src/zod.js';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -33,6 +33,7 @@ export function useTradePlaygroundController() {
   const [trade, setTrade] = useState<TradeInterface>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { refetchUserData } = useAuth();
+  const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const handleTrade = hookFormSubmit(async (param: { inputValue: string }) => {
       setIsLoading(true);
@@ -64,6 +65,27 @@ export function useTradePlaygroundController() {
     setInputCurrency((prevState) => prevState === 'usd' ? 'gbp' : 'usd');
   }
 
+  async function copyTextToClipboard(text: string) {
+    setIsCopied(true);
+    if ('clipboard' in navigator) {
+      return await navigator.clipboard.writeText(text);
+    } else {
+      return document.execCommand('copy', true, text);
+    }
+  }
+
+  useEffect(() => {
+    function cleanCopyTextToClipboard() {
+      setIsCopied(false);
+    }
+
+    const timeout = setTimeout(cleanCopyTextToClipboard, 2000);
+
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, [ isCopied ]);
+
   return {
     inputCurrency,
     handleTrade,
@@ -71,7 +93,9 @@ export function useTradePlaygroundController() {
     trade,
     errors,
     register,
-    isLoading
+    isLoading,
+    copyTextToClipboard,
+    isCopied
   }
 
 }

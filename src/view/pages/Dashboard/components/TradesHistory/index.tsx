@@ -14,29 +14,33 @@ export function TradesHistory() {
 
   return (
     <div>
-      <p className="mb-4">{name} Trades History</p>
+      <p className="mb-4 font-bold">{name} - Histórico de Trades</p>
 
-      <div className="overflow-y-scroll h-[550px] md:max-h-[700px] md:h-full">
+      <div className="overflow-y-auto h-[550px] md:max-h-[700px] md:h-full">
         {trades &&
           trades.map((trade) => (
             <div
               key={trade.id}
               className="border border-gray-200 mb-4 p-4 rounded-lg"
             >
-              <ul>
-                <li>Direction: {trade.description}</li>
-                <li>
-                  Input: {trade.inputValue} - {trade.description.split(" ")[0]}
+              <ul className="space-y-1">
+                <li className="mb-2 font-bold text-center text-xl">
+                  {trade.description}
                 </li>
-                <li>
-                  Output: {trade.outputValue} -{" "}
-                  {trade.description.split(" ")[2]}
+                <li className="bg-slate-500 px-2 py-1 rounded-lg">
+                  Entrada: {trade.inputValue} -{" "}
+                  {trade.description.split(" ")[1]}
                 </li>
-                <li>
-                  Currency value in the trade moment: {trade.currentBidValue} -{" "}
-                  {trade.currentBidDate}
+                <li className="bg-slate-500 px-2 py-1 rounded-lg">
+                  Saida: {trade.outputValue} - {trade.description.split(" ")[3]}
                 </li>
-                <li>Date of trade: {trade.createdAt}</li>
+                <li className="bg-slate-500 px-2 py-1 rounded-lg">
+                  Valor do <strong>{trade.description.split(" ")[1]}</strong>:{" "}
+                  {trade.currentBidValue} - {trade.currentBidDate}
+                </li>
+                <li className="bg-slate-500 px-2 py-1 rounded-lg">
+                  Data da ação: {trade.createdAt}
+                </li>
               </ul>
 
               <div className="flex justify-end">

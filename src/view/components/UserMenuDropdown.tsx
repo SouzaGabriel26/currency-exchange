@@ -10,7 +10,7 @@ interface UserMenuProps {
 
 export function UserMenuDropDown({ title }: UserMenuProps) {
   const [theme, setTheme] = useState<"light" | "dark">(
-    () => (localStorage.getItem("theme") as "light" | "dark") ?? "light"
+    () => (localStorage.getItem("theme") as "light" | "dark") ?? "dark"
   );
   const { signout } = useAuth();
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export function UserMenuDropDown({ title }: UserMenuProps) {
       localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
-      localStorage.removeItem("theme");
+      localStorage.setItem("theme", "light");
     }
   }, [theme]);
 
