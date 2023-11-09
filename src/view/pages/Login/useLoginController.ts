@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod/src/zod.js';
+import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useMutation } from 'react-query';
@@ -34,8 +35,12 @@ export function useLoginController() {
       const { token } = await mutateAsync(data);
 
       signin(token);
-    } catch {
-      toast.error('Credenciais inválidas');
+    } catch (error) {
+      if(error instanceof AxiosError) {
+        toast.error(error.response?.data?.error);
+      } else {
+        toast.error('Credenciais inválidas');
+      }
     }
   });
 
