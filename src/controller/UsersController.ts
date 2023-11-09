@@ -14,11 +14,11 @@ class UsersController {
     const { email, name, password }: createUser = req.body;
 
     if (!email || !name || !password) {
-      return res.status(402).json({ error: 'All fields required: email, name and password' });
+      return res.status(402).json({ error: 'Todos os campos são obrigatórios: email, nome e senha' });
     }
 
     if (password.length < 5) {
-      return res.status(402).json({ error: 'Password must be at least 5 characters' });
+      return res.status(402).json({ error: 'Senha precisa ter no mínimo 5 caracteres' });
     }
 
     const userExists = await UsersRepository.findUnique({
@@ -28,7 +28,7 @@ class UsersController {
     });
 
     if (userExists) {
-      return res.status(409).json({ error: 'This email is already taken'});
+      return res.status(409).json({ error: 'Email já cadastrado'});
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -59,11 +59,11 @@ class UsersController {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(402).json({ error: 'All fields required: email and password' });
+      return res.status(402).json({ error: 'Todos os campos são obrigatorios: email e senha' });
     }
 
     if (password.length < 5) {
-      return res.status(402).json({ error: 'Password must be at least 5 characters' });
+      return res.status(402).json({ error: 'Senha precisa ter no mínimo 5 caracteres' });
     }
 
     const user = await UsersRepository.findUnique({
@@ -73,13 +73,13 @@ class UsersController {
     });
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'Usuário não encontrado' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if(!isPasswordValid) {
-      return res.status(409).json({ error: 'Invalid password' });
+      return res.status(409).json({ error: 'Senha invalida' });
     }
 
     try {
@@ -121,7 +121,7 @@ class UsersController {
     });
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'Usuário não encontrado' });
     }
 
     return res.json(user);
@@ -133,7 +133,7 @@ class UsersController {
     const { email, name } = req.body;
 
     if (!email && !name) {
-      return res.status(402).json({ error: 'At least one field is required: email or name' });
+      return res.status(402).json({ error: 'Pelo menos um campo é obrigatorio: email ou nome' });
     }
 
     if (id !== req.userId) {
@@ -146,7 +146,7 @@ class UsersController {
       const isUserOwnEmail = isEmailAlreadyTaken?.id === id;
   
       if (isEmailAlreadyTaken && !isUserOwnEmail) {
-        return res.status(404).json({ error: 'This email is already in use' });
+        return res.status(404).json({ error: 'Email já cadastrado' });
       }
     }
 
