@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { CustomRequest } from '../middlewares/userAuth';
 import TradesRepository from '../repository/TradesRepository';
-import { getGBPinUSD, getUSDinGBP } from '../utils/handleCurrencies/getBidValue';
+import { getGBPinUSD, getUSDinGBP } from '../utils/getBidValue';
 
 class TradesController {
 
