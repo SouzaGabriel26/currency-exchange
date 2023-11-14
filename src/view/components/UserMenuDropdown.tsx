@@ -1,32 +1,30 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../app/hooks/useAuth";
-import { Spinner } from "./Spinner";
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../../app/hooks/useAuth';
+import { Spinner } from './Spinner';
 
 interface UserMenuProps {
   title?: string;
 }
 
 export function UserMenuDropDown({ title }: UserMenuProps) {
-  const [theme, setTheme] = useState<"light" | "dark">(
-    () => (localStorage.getItem("theme") as "light" | "dark") ?? "dark"
+  const [theme, setTheme] = useState<'light' | 'dark'>(
+    () => (localStorage.getItem('theme') as 'light' | 'dark') ?? 'dark'
   );
   const { signout } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
   }, [theme]);
 
   function toggleTheme() {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   }
 
   return (
@@ -42,20 +40,11 @@ export function UserMenuDropDown({ title }: UserMenuProps) {
         <DropdownMenu.Content className="bg-white border border-gray-100 data-[side=bottom]:animate-slideDownAndFade rounded-xl mr-4 min-w-[150px]">
           <DropdownMenu.Item
             asChild
-            onSelect={() => navigate("/profile")}
-            className="cursor-pointer outline-none data-[highlighted]:bg-gray-200"
-          >
-            <span className="block px-4 py-2 hover:bg-gray-200 text-center rounded-xl">
-              Profile
-            </span>
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            asChild
             onSelect={signout}
             className="cursor-pointer outline-none data-[highlighted]:bg-gray-200"
           >
             <span className="block px-4 py-2 hover:bg-gray-200 text-center rounded-xl">
-              Signout
+              Sair
             </span>
           </DropdownMenu.Item>
           <DropdownMenu.Item
@@ -64,7 +53,7 @@ export function UserMenuDropDown({ title }: UserMenuProps) {
             className="cursor-pointer outline-none data-[highlighted]:bg-gray-200 "
           >
             <span className="block px-4 py-2 hover:bg-gray-200 text-center rounded-xl">
-              Toggle theme {theme === "dark" ? "🌞" : "🌚"}
+              Tema {theme === 'dark' ? '🌞' : '🌚'}
             </span>
           </DropdownMenu.Item>
         </DropdownMenu.Content>

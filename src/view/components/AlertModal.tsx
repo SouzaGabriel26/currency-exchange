@@ -1,6 +1,6 @@
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import { cn } from "../../app/utils/cn";
-import { Button } from "./Button";
+import * as AlertDialog from '@radix-ui/react-alert-dialog';
+import { cn } from '../../app/utils/cn';
+import { Button } from './Button';
 
 interface IAlertModalProps {
   title: string;
@@ -22,8 +22,8 @@ export function AlertModal({
       <AlertDialog.Portal>
         <AlertDialog.Overlay
           className={cn(
-            "fixed inset-0 bg-black/20 backdrop-blur-sm",
-            "data-[state=open]:animate-overlayShow"
+            'fixed inset-0 bg-black/20 backdrop-blur-sm',
+            'data-[state=open]:animate-overlayShow'
           )}
         />
         <AlertDialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[51] p-6 space-y-10 bg-white rounded-2xl shadow-[0px_11px_20px_0px_rgba(0,0,0,0.10)] w-full max-w-[400px] outline-none data-[state=open]:animate-contentShow">
@@ -41,7 +41,7 @@ export function AlertModal({
             </AlertDialog.Cancel>
             <AlertDialog.Action asChild>
               <Button
-                className="bg-red-500 hover:bg-red-300"
+                className=" bg-red-500 hover:bg-red-300"
                 onClick={onConfirm}
               >
                 Deletar Trade

@@ -5,6 +5,7 @@ import { tradesService } from "../../../../../app/services/tradesService";
 
 export function useTradesHistoryController() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tradeIdBeingDeleted, setTradeIdBeingDeleted] = useState<string>();
   const { userData, refetchUserData } = useAuth();
   const { trades, name } = userData;
 
@@ -34,5 +35,7 @@ export function useTradesHistoryController() {
     isModalOpen,
     handleOpenModal,
     handleCloseModal,
+    setTradeIdBeingDeleted,
+    tradeIdBeingDeleted
   }
 }
