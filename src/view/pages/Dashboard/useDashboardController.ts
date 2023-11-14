@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import { useAuth } from "../../../app/hooks/useAuth";
 
 export function useDashboardController() {
   const { userData } = useAuth();
   const [nameInitials, setNameInitials] = useState<string>();
+  const [updatedValue, setUpdatedValue] = useState<{usdValue: number, gbpValue: number, updatedAt: string}>();
+  const socket = io("http://localhost:3001");
 
   useEffect(() => {
     if (userData.name) {
@@ -16,5 +19,21 @@ export function useDashboardController() {
 
   }, [userData, setNameInitials]);
 
-  return { nameInitials }
+  useEffect(() => {
+    const loginMessage = {
+      type: "login",
+      username: userData.name,
+    };
+    if (updatedValue) {
+      socket.emit('value', loginMessage);
+    } else {
+      socket.emit('firstValue', loginMessage);
+    }
+  }, [socket, userData.name, updatedValue]);
+
+  socket.on('updated-values', (data) => {
+    setUpdatedValue(data);
+  });
+
+  return { nameInitials, updatedValue }
 }
