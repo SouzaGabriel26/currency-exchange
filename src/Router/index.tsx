@@ -14,13 +14,12 @@ export function Router() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
 
         <Route element={<AuthGuard isPrivate />}>
           <Route path="/" element={<Dashboard />} />
         </Route>
-
-        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
