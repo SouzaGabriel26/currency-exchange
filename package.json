@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx nodemon src/index.ts",
-    "build": "tsc -p ."
+    "build": "tsc -p tsconfig.json"
   },
   "keywords": [],
   "author": "",

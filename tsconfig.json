@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "ESNext",
     "lib": ["es6", "DOM"],
     "allowJs": true,
     "outDir": "build",
@@ -9,6 +9,7 @@
     "strict": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true
   }
 }
