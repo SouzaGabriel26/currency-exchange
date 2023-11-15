@@ -10,7 +10,9 @@ app.use(express.json());
 app.use(Cors)
 app.use(router);
 
-const server = app.listen(3001, () => console.log('server is running at http://localhost:3001'));
+const PORT = process.env.PORT || 3001;
+
+const server = app.listen(PORT, () => console.log(`server is running at http://localhost:${PORT}`));
 
 const io = new Server(server, {
   cors: {
