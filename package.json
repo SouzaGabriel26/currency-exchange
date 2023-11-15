@@ -5,8 +5,9 @@
   "main": "build/index.js",
   "scripts": {
     "dev": "npx nodemon src/index.ts",
+    "start": "node build/index.js",
     "build": "tsc",
-    "start": "node build/index.js"
+    "migrate": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
