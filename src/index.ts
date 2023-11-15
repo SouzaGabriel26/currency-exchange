@@ -19,8 +19,6 @@ const io = new Server(server, {
   },
 });
 
-let interval: NodeJS.Timeout;
-
 io.on('connection', async (socket) => {
   websocket.sendUpdatedValues({ socket });
 });
