@@ -40,19 +40,20 @@ export const websocket = {
 async function emitUpdatedObjectValues(socket: any, event: string) {
   const { bidValue: usd } = await getUSDinGBP();
   const { bidValue: gbp } = await getGBPinUSD();
+  const date = new Date(Date.now()).toLocaleString(
+    "pt-BR",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    }
+  );
   socket.emit(event, {
     usdValue: usd,
     gbpValue: gbp,
-    updatedAt: new Date(Date.now()).toLocaleString(
-      "pt-BR",
-      {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      }
-    ),
+    updatedAt: date,
   });
 }
