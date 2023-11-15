@@ -24,7 +24,7 @@ export function useTradesHistoryController() {
       refetchUserData()
     } catch (error){
       console.log(error)
-      toast.error('Error on delete a trade');
+      toast.error('Erro ao deletar trade');
     }
   }
 

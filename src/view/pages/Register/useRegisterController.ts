@@ -39,7 +39,7 @@ export function useRegisterController() {
       signin(token);
     } catch (error) {
       if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.error);
+        toast.error(error.response?.data?.error || 'Erro ao criar a sua conta.');
       } else {
         toast.error('Ocorreu um erro ao criar a sua conta.');
       }

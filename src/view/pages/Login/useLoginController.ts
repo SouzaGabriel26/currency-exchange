@@ -37,7 +37,7 @@ export function useLoginController() {
       signin(token);
     } catch (error) {
       if(error instanceof AxiosError) {
-        toast.error(error.response?.data?.error);
+        toast.error(error.response?.data?.error || 'Erro ao realizar login');
       } else {
         toast.error('Credenciais inválidas');
       }
