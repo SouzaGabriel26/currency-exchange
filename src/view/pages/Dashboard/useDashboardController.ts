@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "../../../app/hooks/useAuth";
+import { httpClient } from "../../../app/services/httpClient";
+
+const url = httpClient.getUri();
 
 export function useDashboardController() {
   const { userData } = useAuth();
   const [nameInitials, setNameInitials] = useState<string>();
-  const [updatedValue, setUpdatedValue] = useState<{usdValue: number, gbpValue: number, updatedAt: string}>();
-  const socket = io("http://localhost:3001");
+  const [updatedValue, setUpdatedValue] = useState<{usdValue: number, gbpValue: number, updatedAt: number}>();
+  const socket = io(url);
 
   useEffect(() => {
     if (userData.name) {

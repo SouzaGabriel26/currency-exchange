@@ -6,6 +6,9 @@ import { useDashboardController } from './useDashboardController';
 
 export function Dashboard() {
   const { nameInitials, updatedValue } = useDashboardController();
+  const lastUpdateDate = new Date(updatedValue?.updatedAt || 0).toLocaleString(
+    'pt-br'
+  );
 
   return (
     <div className="h-full w-full p-4 lg:p-10 lg:pt-6 flex flex-col gap-4 overflow-y-auto lg:overflow-hidden bg-slate-100 dark:bg-slate-700 dark:text-white">
@@ -15,7 +18,7 @@ export function Dashboard() {
       </header>
 
       <main className="flex-1 flex flex-col lg:flex-row gap-4">
-        <div className="w-full h-2/3 lg:w-2/3 lg:h-full rounded-lg px-10 py-8 bg-slate-300/50 dark:bg-slate-900/50 flex flex-col items-center ">
+        <div className="w-full h-2/3 lg:w-2/3 lg:h-full rounded-lg px-10 py-8 bg-slate-300/50 dark:bg-slate-900/50 flex flex-col items-center gap-4">
           <div className="flex items-center flex-col gap-2">
             Valor atualizado das moedas em tempo real:
             <div className="flex flex-col items-center gap-2">
@@ -29,7 +32,7 @@ export function Dashboard() {
                       GBP: {formatCurrency(updatedValue.gbpValue, 'GBP')}
                     </span>
                   </div>
-                  <span>Ultima att: {updatedValue.updatedAt}</span>
+                  <span>Ultima att: {lastUpdateDate}</span>
                 </>
               )}
             </div>

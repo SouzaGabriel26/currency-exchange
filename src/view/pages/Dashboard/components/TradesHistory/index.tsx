@@ -17,14 +17,14 @@ export function TradesHistory() {
 
   return (
     <div>
-      <p className="mb-4 font-bold">{name} - Histórico de Trades</p>
+      <p className="mb-4 font-bold text-center">{name} - Histórico de Trades</p>
 
       <div className="overflow-y-auto h-[550px] md:max-h-[700px] md:h-full">
         {trades &&
           trades.map((trade) => (
             <div
               key={trade.id}
-              className="border border-slate-800 dark:border-gray-200 mb-4 p-4 rounded-lg"
+              className="border border-slate-800 dark:border-gray-200 mb-4 p-4 rounded-lg max-w-2xl mx-auto"
             >
               <ul className="space-y-1">
                 <li className="mb-2 font-bold text-center text-xl">

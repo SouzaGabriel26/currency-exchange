@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 import { localStorageKeys } from "../config/localStorageKeys";
 
 export const httpClient = axios.create({
