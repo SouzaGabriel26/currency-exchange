@@ -74,7 +74,7 @@ export function Select({
                   >
                     <RdxSelect.ItemText>{option.label}</RdxSelect.ItemText>
                     <img
-                      src={`https://github.com/SouzaGabriel26/currency-exchange-app/blob/main/src/assets/${option.value}.png`}
+                      src={`https://raw.githubusercontent.com/SouzaGabriel26/currency-exchange-app/main/src/assets/${option.value}.png`}
                       alt=""
                       className="w-6"
                     />
