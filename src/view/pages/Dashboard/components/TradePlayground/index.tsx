@@ -1,9 +1,9 @@
-import { LoopIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { cn } from '../../../../../app/utils/cn';
 import { formatCurrency } from '../../../../../app/utils/formatCurrency';
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
+import { Select } from '../../../../components/Select';
 import { useTradePlaygroundController } from './useTradePlaygroundController';
 
 export function TradePlayground() {
@@ -11,35 +11,58 @@ export function TradePlayground() {
     handleTrade,
     errors,
     register,
-    toggleInputCurrency,
     inputCurrency,
     trade,
     isLoading,
     copyTextToClipboard,
     isCopied,
+    handleSelectInputCurrency,
+    handleSelectOutputCurrency,
+    outputCurrency,
   } = useTradePlaygroundController();
 
-  const [isRotate, setIsRotate] = useState<boolean>(false);
   const tradeTade = new Date(Number(trade?.createdAt) || 0).toLocaleString(
     'pt-br'
   );
 
-  function toggleCurrency() {
-    toggleInputCurrency();
-    setIsRotate((prevState) => !prevState);
-  }
-
   return (
     <div className="flex flex-col h-full items-center justify-center gap-6">
-      <div className="flex flex-col justify-center items-center gap-2">
-        <span>
-          Moeda: <strong>{inputCurrency.toUpperCase()}</strong>
-        </span>
-        <Button onClick={toggleCurrency} disabled={isLoading}>
-          <LoopIcon
-            className={cn('transition-all', isRotate && 'rotate-180')}
-          />
-        </Button>
+      <div className="flex flex-col justify-center items-center gap-4">
+        <div className="w-[350px] space-y-2">
+          <div className="flex items-center justify-between">
+            <Select
+              onChange={handleSelectInputCurrency}
+              options={[
+                { value: 'usd', label: 'USD' },
+                { value: 'gbp', label: 'GBP' },
+                { value: 'brl', label: 'BRL' },
+              ]}
+              placeholder="Moeda Inicial"
+              className="w-[150px]"
+            />
+
+            <Select
+              onChange={handleSelectOutputCurrency}
+              options={[
+                { value: 'usd', label: 'USD' },
+                { value: 'gbp', label: 'GBP' },
+                { value: 'brl', label: 'BRL' },
+              ]}
+              placeholder="Moeda Final"
+              className="w-[150px]"
+            />
+          </div>
+          <span
+            className={cn(
+              'text-red-500 hidden text-center',
+              inputCurrency === outputCurrency &&
+                'flex items-center justify-center gap-2'
+            )}
+          >
+            <ExclamationTriangleIcon />
+            Moedas iguais!
+          </span>
+        </div>
       </div>
       <form onSubmit={handleTrade} className="flex gap-4">
         <Input
@@ -49,8 +72,11 @@ export function TradePlayground() {
           error={errors.inputValue?.message}
           className="w-[150px] text-center placeholder-shown:text-left"
         />
-        <Button type="submit" disabled={isLoading}>
-          Converter para {inputCurrency === 'gbp' ? 'usd' : 'gbp'}
+        <Button
+          type="submit"
+          disabled={isLoading || inputCurrency === outputCurrency}
+        >
+          Converter para {outputCurrency}
         </Button>
       </form>
 

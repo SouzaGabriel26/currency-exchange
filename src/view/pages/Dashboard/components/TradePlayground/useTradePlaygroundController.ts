@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { useAuth } from "../../../../../app/hooks/useAuth";
-import { tradesService } from "../../../../../app/services/tradesService";
 import { TradeInterface } from "../../../../../app/utils/interfaces/tradeInterface";
+import { serviceByCurrency } from '../../../../../app/utils/serviceByCurrency';
 
-type InputCurrencyType = 'usd' | 'gbp';
+type InputCurrencyType = 'usd' | 'gbp' | 'brl';
 
 const schema = z.object({
   inputValue: z.string().refine(value => {
@@ -30,6 +30,7 @@ export function useTradePlaygroundController() {
   });
 
   const [inputCurrency, setInputCurrency] = useState<InputCurrencyType>('usd');
+  const [outputCurrency, setOutputCurrency] = useState<InputCurrencyType>('brl');
   const [trade, setTrade] = useState<TradeInterface>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { refetchUserData } = useAuth();
@@ -40,20 +41,9 @@ export function useTradePlaygroundController() {
       const convertedValue = parseFloat(param.inputValue.replace(',', '.'));
 
       try {
-        if(inputCurrency === 'usd') {
-          const data = await tradesService.usdTogbp({ inputValue: convertedValue });
-
-          setTrade(data);
-          refetchUserData()
-          return data;
-        } else if (inputCurrency === 'gbp') {
-          const data = await tradesService.gbpTousd({ inputValue: convertedValue });
-
-          setTrade(data);
-          refetchUserData()
-          return data;
-        }
-        return 'Erro'
+        const data = await serviceByCurrency(inputCurrency, outputCurrency, convertedValue);
+        setTrade(data);
+        refetchUserData()
       } catch {
         toast.error('An error ocurred!');
       } finally {
@@ -61,8 +51,12 @@ export function useTradePlaygroundController() {
       }
   });
 
-  function toggleInputCurrency() {
-    setInputCurrency((prevState) => prevState === 'usd' ? 'gbp' : 'usd');
+  function handleSelectInputCurrency(value: string) {
+    setInputCurrency(value as InputCurrencyType);
+  }
+
+  function handleSelectOutputCurrency(value: string) {
+    setOutputCurrency(value as InputCurrencyType);
   }
 
   async function copyTextToClipboard(text: string) {
@@ -89,13 +83,15 @@ export function useTradePlaygroundController() {
   return {
     inputCurrency,
     handleTrade,
-    toggleInputCurrency,
+    handleSelectInputCurrency,
     trade,
     errors,
     register,
     isLoading,
     copyTextToClipboard,
-    isCopied
+    isCopied,
+    handleSelectOutputCurrency,
+    outputCurrency
   }
 
 }
