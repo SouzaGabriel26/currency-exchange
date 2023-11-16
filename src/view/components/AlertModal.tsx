@@ -20,14 +20,7 @@ export function AlertModal({
   disabled,
 }: IAlertModalProps) {
   return (
-    <AlertDialog.Root
-      open={open}
-      onOpenChange={() => {
-        if (!disabled) {
-          handleClose();
-        }
-      }}
-    >
+    <AlertDialog.Root open={open}>
       <AlertDialog.Portal>
         <AlertDialog.Overlay
           className={cn(
@@ -47,6 +40,7 @@ export function AlertModal({
               <Button
                 disabled={disabled}
                 className="bg-slate-400 hover:bg-slate-300 text-white"
+                onClick={handleClose}
               >
                 Cancelar
               </Button>
