@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { CustomRequest } from '../middlewares/userAuth';
 import TradesRepository from '../repository/TradesRepository';
-import { getGBPinUSD, getUSDinGBP } from '../utils/getBidValue';
+import { getBRLinGBP, getBRLinUSD, getGBPinBRL, getGBPinUSD, getUSDinBRL, getUSDinGBP } from '../utils/getBidValue';
 
 class TradesController {
 
@@ -34,7 +34,7 @@ class TradesController {
       return res.status(402).json({ error: 'input Value required' });
     }
 
-    if (['usd-gbp', 'gbp-usd'].includes(trade)) {
+    if (['usd-gbp', 'gbp-usd', 'brl-usd', 'usd-brl', 'brl-gbp', 'gbp-url'].includes(trade)) {
       let outputValue = 0;
       let bidValueObj;
 
@@ -45,6 +45,26 @@ class TradesController {
   
       if (trade === 'gbp-usd') {
         bidValueObj = await getGBPinUSD();
+        outputValue = inputValue * bidValueObj.bidValue;
+      }
+
+      if (trade === 'brl-usd') {
+        bidValueObj = await getBRLinUSD();
+        outputValue = inputValue * bidValueObj.bidValue;
+      }
+
+      if (trade === 'usd-brl') {
+        bidValueObj = await getUSDinBRL();
+        outputValue = inputValue * bidValueObj.bidValue;
+      }
+
+      if (trade === 'brl-gbp') {
+        bidValueObj = await getBRLinGBP();
+        outputValue = inputValue * bidValueObj.bidValue;
+      }
+
+      if (trade === 'gbp-brl') {
+        bidValueObj = await getGBPinBRL();
         outputValue = inputValue * bidValueObj.bidValue;
       }
 
