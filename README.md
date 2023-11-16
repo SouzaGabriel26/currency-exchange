@@ -1,10 +1,10 @@
 # Currency Exchange App API
 
-This project is a currency exchange application that provides two options for making trades: USD-GBP and GBP-USD. The API allows users to perform currency trades based on the most updated bidValue available, as the underlying API used in the project updates currency values every 30 seconds.
+This project is a currency exchange application that provides two options for making trades: USD, GBP and BRL. The API allows users to perform currency trades based on the most updated bidValue available, as the underlying API used in the project updates currency values every 30 seconds.
 
 ## Features
 
-1. **Currency Trades:** Users can make currency trades between USD-GBP and GBP-USD pairs. The API ensures that the bidValue used for each trade is always up-to-date due to the underlying API's frequent updates.
+1. **Currency Trades:** Users can make currency trades between USD-GBP, GBP-USD, BRL-USD, USD-BRL, BRL-GBP and GBP-BRL pairs. The API ensures that the bidValue used for each trade is always up-to-date due to the underlying API's frequent updates.
 
 2. **User System:** The application includes a user system with login and registration functionality. This allows users to create accounts, log in securely, and perform trades as registered users.
 
@@ -19,6 +19,8 @@ This project is a currency exchange application that provides two options for ma
 - **Express.js:** The API is developed using Express.js, a popular web application framework for Node.js. Express.js simplifies routing, middleware, and HTTP handling.
 
 - **Prisma:** Prisma is used as an ORM (Object-Relational Mapping) tool to interact with the database. It offers a convenient and type-safe way to manage database operations.
+
+- **Websocket:** To provide the up to date currency value.
 
 ## Database
 
