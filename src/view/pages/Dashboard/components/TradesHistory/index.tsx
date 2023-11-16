@@ -13,6 +13,7 @@ export function TradesHistory() {
     isModalOpen,
     setTradeIdBeingDeleted,
     tradeIdBeingDeleted,
+    isTradeBeingDeleted,
   } = useTradesHistoryController();
 
   return (
@@ -76,6 +77,7 @@ export function TradesHistory() {
           description="Tem certeza que deseja deletar esse trade?"
           title="Deletar trade"
           onConfirm={() => deleteTrade(tradeIdBeingDeleted as string)}
+          disabled={isTradeBeingDeleted}
         />
       </div>
     </div>

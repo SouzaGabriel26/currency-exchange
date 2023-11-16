@@ -20,7 +20,7 @@ export function TradePlayground() {
   } = useTradePlaygroundController();
 
   const [isRotate, setIsRotate] = useState<boolean>(false);
-  const tradeTade = new Date(Number(trade?.createdAt) || 0).toLocaleDateString(
+  const tradeTade = new Date(Number(trade?.createdAt) || 0).toLocaleString(
     'pt-br'
   );
 

@@ -5,6 +5,7 @@ import { tradesService } from "../../../../../app/services/tradesService";
 
 export function useTradesHistoryController() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTradeBeingDeleted, setIsTradeBeingDeleted] = useState(false);
   const [tradeIdBeingDeleted, setTradeIdBeingDeleted] = useState<string>();
   const { userData, refetchUserData } = useAuth();
   const { trades, name } = userData;
@@ -18,6 +19,7 @@ export function useTradesHistoryController() {
   }
 
   async function deleteTrade(tradeId: string) {
+    setIsTradeBeingDeleted(true);
     try {
       await tradesService.deleteTrade(tradeId);
 
@@ -25,6 +27,9 @@ export function useTradesHistoryController() {
     } catch (error){
       console.log(error)
       toast.error('Erro ao deletar trade');
+    } finally {
+      setIsTradeBeingDeleted(false);
+      handleCloseModal();
     }
   }
 
@@ -36,6 +41,7 @@ export function useTradesHistoryController() {
     handleOpenModal,
     handleCloseModal,
     setTradeIdBeingDeleted,
-    tradeIdBeingDeleted
+    tradeIdBeingDeleted,
+    isTradeBeingDeleted
   }
 }

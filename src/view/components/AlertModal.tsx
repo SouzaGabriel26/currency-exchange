@@ -8,6 +8,7 @@ interface IAlertModalProps {
   onConfirm: () => void;
   open: boolean;
   handleClose: () => void;
+  disabled?: boolean;
 }
 
 export function AlertModal({
@@ -16,6 +17,7 @@ export function AlertModal({
   onConfirm,
   open,
   handleClose,
+  disabled,
 }: IAlertModalProps) {
   return (
     <AlertDialog.Root open={open} onOpenChange={handleClose}>
@@ -35,7 +37,10 @@ export function AlertModal({
           </AlertDialog.Description>
           <div className="flex items-center justify-end gap-4 text-gray-800">
             <AlertDialog.Cancel asChild>
-              <Button className="bg-slate-400 hover:bg-slate-300 text-white">
+              <Button
+                disabled={disabled}
+                className="bg-slate-400 hover:bg-slate-300 text-white"
+              >
                 Cancelar
               </Button>
             </AlertDialog.Cancel>
@@ -43,6 +48,7 @@ export function AlertModal({
               <Button
                 className=" bg-red-500 hover:bg-red-300"
                 onClick={onConfirm}
+                disabled={disabled}
               >
                 Deletar Trade
               </Button>
