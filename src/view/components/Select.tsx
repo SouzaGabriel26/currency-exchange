@@ -74,7 +74,7 @@ export function Select({
                   >
                     <RdxSelect.ItemText>{option.label}</RdxSelect.ItemText>
                     <img
-                      src={`../../../public/${option.value}.png`}
+                      src={`../../assets/${option.value}.svg`}
                       alt=""
                       className="w-6"
                     />
