@@ -20,7 +20,7 @@ export function Dashboard() {
       <main className="flex-1 flex flex-col lg:flex-row gap-4">
         <div className="w-full h-2/3 lg:w-2/3 lg:h-full rounded-lg px-10 py-8 bg-slate-300/50 dark:bg-slate-900/50 flex flex-col items-center gap-4">
           <div className="flex items-center flex-col gap-2">
-            Valor atualizado das moedas em tempo real:
+            Valor atualizado das moedas (USD e GBP) em tempo real:
             <div className="flex flex-col items-center gap-2">
               {updatedValue && (
                 <>
