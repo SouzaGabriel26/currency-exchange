@@ -16,6 +16,10 @@ export function TradesHistory() {
     isTradeBeingDeleted,
   } = useTradesHistoryController();
 
+  function formatDate(date: string) {
+    return new Date(Number(date)).toLocaleString('pt-br');
+  }
+
   return (
     <div>
       <p className="mb-4 font-bold text-center">{name} - Histórico de Trades</p>
@@ -54,7 +58,7 @@ export function TradesHistory() {
                   - {trade.currentBidDate}
                 </li>
                 <li className="bg-slate-300 dark:bg-slate-500 px-2 py-1 rounded-lg">
-                  Data da ação: {trade.createdAt}
+                  Data da ação: {formatDate(trade.createdAt)}
                 </li>
               </ul>
 

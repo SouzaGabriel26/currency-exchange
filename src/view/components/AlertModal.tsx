@@ -20,7 +20,14 @@ export function AlertModal({
   disabled,
 }: IAlertModalProps) {
   return (
-    <AlertDialog.Root open={open} onOpenChange={handleClose}>
+    <AlertDialog.Root
+      open={open}
+      onOpenChange={() => {
+        if (!disabled) {
+          handleClose();
+        }
+      }}
+    >
       <AlertDialog.Portal>
         <AlertDialog.Overlay
           className={cn(
