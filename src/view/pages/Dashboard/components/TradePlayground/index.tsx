@@ -20,6 +20,9 @@ export function TradePlayground() {
   } = useTradePlaygroundController();
 
   const [isRotate, setIsRotate] = useState<boolean>(false);
+  const tradeTade = new Date(Number(trade?.createdAt) || 0).toLocaleDateString(
+    'pt-br'
+  );
 
   function toggleCurrency() {
     toggleInputCurrency();
@@ -81,7 +84,7 @@ export function TradePlayground() {
               </strong>
             </span>
             <br />
-            <span>Feito em {trade.createdAt}</span>
+            <span>Feito em {tradeTade}</span>
             <div className="mt-2">
               <p>Mais informações:</p>
               <ul className="ml-4">
