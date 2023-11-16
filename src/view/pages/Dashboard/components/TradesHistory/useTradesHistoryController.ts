@@ -21,9 +21,8 @@ export function useTradesHistoryController() {
   async function deleteTrade(tradeId: string) {
     setIsTradeBeingDeleted(true);
     try {
-      await tradesService.deleteTrade(tradeId);
+      await tradesService.deleteTrade(tradeId).then(() => refetchUserData());
 
-      refetchUserData()
     } catch (error){
       console.log(error)
       toast.error('Erro ao deletar trade');
