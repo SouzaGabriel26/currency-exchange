@@ -28,7 +28,7 @@ export function TradePlayground() {
   return (
     <div className="flex flex-col h-full items-center justify-center gap-6">
       <div className="flex flex-col justify-center items-center gap-4">
-        <div className="w-[350px] space-y-2">
+        <div className="w-[300px] md:w-[350px]  space-y-2">
           <div className="flex items-center justify-between">
             <Select
               onChange={handleSelectInputCurrency}
