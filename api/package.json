@@ -7,7 +7,9 @@
     "dev": "npx nodemon src/index.ts",
     "start": "node build/index.js",
     "build": "tsc",
-    "migrate": "prisma migrate deploy"
+    "migrate": "prisma migrate deploy",
+    "services:up": "docker compose -f ./infra/docker-compose.yaml up -d",
+    "services:down": "docker compose -f ./infra/docker-compose.yaml down"
   },
   "keywords": [],
   "author": "",
